@@ -9,5 +9,6 @@ https://www.tensorflow.org/install/install_mac
 
 Before running any of these examples, I run the following command (NOTE: I've installed the virtualenv environment at ~/Tensorflow):
 
-```source ~/tensorfolow/bin/activate
+```bash
+source ~/tensorfolow/bin/activate
 ```
