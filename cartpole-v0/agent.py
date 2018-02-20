@@ -6,6 +6,8 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 from keras import backend as K
 
+from model import KerasModel
+
 # Deep Q-learning Agent
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -17,7 +19,8 @@ class DQNAgent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         self.learning_rate = 0.001
-        self.model = self._build_model()
+        #self.model = self._build_model()
+        self.model = KerasModel(self._build_model())
 
     def _build_model(self):
         # TODO: Rebuild as a Tensorflow model, will probably want to encapsulate a it's own class
