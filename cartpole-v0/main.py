@@ -3,7 +3,7 @@ import numpy as np
 
 from agent import DQNAgent
 
-EPISODES = 1000
+EPISODES = 100
 
 if __name__ == "__main__":
     # initialize gym environment and the agent
@@ -39,6 +39,8 @@ if __name__ == "__main__":
             # make next_state the new current state for the next frame.
             state = next_state
 
+            agent.replay(32)
+
             # done becomes True when the game ends
             # ex) The agent drops the pole
             if done:
@@ -46,10 +48,6 @@ if __name__ == "__main__":
                 print("episode: {}/{}, score: {}"
                       .format(e, EPISODES, time_t))
                 break
-
-        # train the agent with the experience of the episode
-        # TODO: This is wrong, the agent.replay should be occurring inside the loop on each time step
-        agent.replay(32)
 
     # Play 10 more episodes and render them to show how awesome our agent is
     for e in range(10):

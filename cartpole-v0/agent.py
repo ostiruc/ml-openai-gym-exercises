@@ -34,6 +34,8 @@ class DQNAgent:
 
         minibatch = random.sample(self.memory, batch_size)
 
+        states = None
+        target_fs = None
         for state, action, reward, next_state, done in minibatch:
             target = reward
 
@@ -43,9 +45,18 @@ class DQNAgent:
             target_f = self.model.predict(state)
             target_f[0][action] = target
 
-            # TODO: This is wrong the update should be applied to all items in the batch at the same time rather 
-            # than one item at a time.
-            self.model.fit(state, target_f, epochs=1, verbose=0)
+            # Concatenante our sample set
+            if states is not None:
+                states = np.concatenate((states, state), axis=0)
+            else:
+                states = state
+
+            if target_fs is not None:
+                target_fs = np.concatenate((target_fs, target_f), axis=0)
+            else:
+                target_fs = target_f
+
+        self.model.fit(states, target_fs, epochs=1, verbose=0)
 
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
