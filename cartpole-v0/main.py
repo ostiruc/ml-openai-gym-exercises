@@ -5,7 +5,7 @@ from playsound import playsound
 from agent import DQNAgent
 
 EPISODES = 1000
-GOAL_SCORE = 199
+GOAL_SCORE = 200
 GOAL_EPISODES = 5
 
 if __name__ == "__main__":
@@ -51,11 +51,10 @@ if __name__ == "__main__":
             if done:
                 # print the score and break out of the loop
                 print("episode: {}/{}, score: {}"
-                      .format(e, EPISODES, time_t))
+                      .format(e+1, EPISODES, time_t+1))
 
-                if time_t >= GOAL_SCORE:
+                if time_t+1 >= GOAL_SCORE:
                     achieved_goal_score_count += 1
-                    print("Achieved {} of {} goal episodes.").format(achieved_goal_score_count, GOAL_EPISODES)
                 else:
                     achieved_goal_score_count = 0
 
@@ -99,6 +98,6 @@ if __name__ == "__main__":
             if done:
                 # print the score and break out of the loop
                 print("episode: {}/{}, score: {}"
-                      .format(e, 10, time_t))
+                      .format(e+1, 10, time_t+1))
                 break
 
