@@ -29,8 +29,9 @@ class DQNAgent:
         return np.argmax(act_values[0])  # returns action
 
     def replay(self, batch_size):
-        # TODO: Simplify by returning early if the batch size is too small
-        batch_size = min(batch_size, len(self.memory))
+        if len(self.memory) < batch_size:
+            return
+
         minibatch = random.sample(self.memory, batch_size)
 
         for state, action, reward, next_state, done in minibatch:
