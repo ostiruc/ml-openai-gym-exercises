@@ -48,6 +48,7 @@ if __name__ == "__main__":
                 break
 
         # train the agent with the experience of the episode
+        # TODO: This is wrong, the agent.replay should be occurring inside the loop on each time step
         agent.replay(32)
 
     # Play 10 more episodes and render them to show how awesome our agent is

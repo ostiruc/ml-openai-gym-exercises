@@ -29,6 +29,7 @@ class DQNAgent:
         return np.argmax(act_values[0])  # returns action
 
     def replay(self, batch_size):
+        # TODO: Simplify by returning early if the batch size is too small
         batch_size = min(batch_size, len(self.memory))
         minibatch = random.sample(self.memory, batch_size)
 
@@ -41,6 +42,8 @@ class DQNAgent:
             target_f = self.model.predict(state)
             target_f[0][action] = target
 
+            # TODO: This is wrong the update should be applied to all items in the batch at the same time rather 
+            # than one item at a time.
             self.model.fit(state, target_f, epochs=1, verbose=0)
 
         if self.epsilon > self.epsilon_min:
