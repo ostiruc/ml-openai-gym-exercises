@@ -37,6 +37,9 @@ class DQNAgent:
         states = None
         target_fs = None
         for state, action, reward, next_state, done in minibatch:
+            # TODO: 95% of the replay time is spent doing the two predicts here, see if we can move this into
+            # a tensorflow batch predict, it should cut down greatly on the time not having to jump back and
+            # forth on the prediction time
             target = reward
 
             if not done:
