@@ -3,6 +3,7 @@ import numpy as np
 from playsound import playsound
 
 from agent import DQNAgent
+from stopwatch import Stopwatch
 
 EPISODES = 1000
 GOAL_SCORE = 200
@@ -14,9 +15,11 @@ if __name__ == "__main__":
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
     agent = DQNAgent(state_size, action_size)
+    stopwatch = Stopwatch()
 
     achieved_goal_score_count = 0
 
+    stopwatch.start()
     # Iterate the game
     for e in range(EPISODES):
         episode_number = e + 1
@@ -71,8 +74,11 @@ if __name__ == "__main__":
             print("Achieved Goal Episodes, Ending Training...")
             break
 
+    stopwatch.stop()
+
     playsound('./assets/work-complete.wav')
-    raw_input('Training Complete, press Enter to render some games...')
+    print('Training completed in {} seconds.').format(stopwatch.total_run_time)
+    raw_input('Press Enter to render some games...')
 
     # Play 10 more episodes and render them to show how awesome our agent is
     for e in range(10):
