@@ -1,5 +1,6 @@
 import gym
 import numpy as np
+from playsound import playsound
 
 from agent import DQNAgent
 
@@ -48,6 +49,9 @@ if __name__ == "__main__":
                 print("episode: {}/{}, score: {}"
                       .format(e, EPISODES, time_t))
                 break
+
+    playsound('./assets/work-complete.wav')
+    raw_input('Training Complete, press Enter to render some games...')
 
     # Play 10 more episodes and render them to show how awesome our agent is
     for e in range(10):
