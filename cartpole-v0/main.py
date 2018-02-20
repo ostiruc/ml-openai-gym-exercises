@@ -19,6 +19,8 @@ if __name__ == "__main__":
 
     # Iterate the game
     for e in range(EPISODES):
+        episode_number = e + 1
+
         # reset state in the beginning of each game
         state = env.reset()
         state = np.reshape(state, [1, 4])
@@ -49,17 +51,22 @@ if __name__ == "__main__":
             # done becomes True when the game ends
             # ex) The agent drops the pole
             if done:
-                # print the score and break out of the loop
-                print("episode: {}/{}, score: {}"
-                      .format(e+1, EPISODES, time_t+1))
+                score = time_t + 1
 
-                if time_t+1 >= GOAL_SCORE:
+                # print the score
+                print("episode: {}/{}, score: {}"
+                      .format(episode_number, EPISODES, score))
+
+                # Determine if we've achieved our goal score
+                if score >= GOAL_SCORE:
                     achieved_goal_score_count += 1
                 else:
                     achieved_goal_score_count = 0
 
+                # break out of the loop
                 break
 
+        # If we've met our goal score enough times in a row then end training
         if achieved_goal_score_count >= GOAL_EPISODES:
             print("Achieved Goal Episodes, Ending Training...")
             break
@@ -69,6 +76,8 @@ if __name__ == "__main__":
 
     # Play 10 more episodes and render them to show how awesome our agent is
     for e in range(10):
+        episode_number = e + 1
+
         # reset state in the beginning of each game
         state = env.reset()
         state = np.reshape(state, [1, 4])
@@ -96,8 +105,10 @@ if __name__ == "__main__":
             # done becomes True when the game ends
             # ex) The agent drops the pole
             if done:
+                score = time_t + 1
+
                 # print the score and break out of the loop
                 print("episode: {}/{}, score: {}"
-                      .format(e+1, 10, time_t+1))
+                      .format(episode_number, 10, score))
                 break
 
