@@ -4,7 +4,9 @@ from playsound import playsound
 
 from agent import DQNAgent
 
-EPISODES = 100
+EPISODES = 1000
+GOAL_SCORE = 199
+GOAL_EPISODES = 5
 
 if __name__ == "__main__":
     # initialize gym environment and the agent
@@ -12,6 +14,8 @@ if __name__ == "__main__":
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
     agent = DQNAgent(state_size, action_size)
+
+    achieved_goal_score_count = 0
 
     # Iterate the game
     for e in range(EPISODES):
@@ -48,7 +52,18 @@ if __name__ == "__main__":
                 # print the score and break out of the loop
                 print("episode: {}/{}, score: {}"
                       .format(e, EPISODES, time_t))
+
+                if time_t >= GOAL_SCORE:
+                    achieved_goal_score_count += 1
+                    print("Achieved {} of {} goal episodes.").format(achieved_goal_score_count, GOAL_EPISODES)
+                else:
+                    achieved_goal_score_count = 0
+
                 break
+
+        if achieved_goal_score_count >= GOAL_EPISODES:
+            print("Achieved Goal Episodes, Ending Training...")
+            break
 
     playsound('./assets/work-complete.wav')
     raw_input('Training Complete, press Enter to render some games...')
