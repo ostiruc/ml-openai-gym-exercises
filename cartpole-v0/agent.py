@@ -2,7 +2,7 @@ import random
 import numpy as np
 from collections import deque
 
-from model import KerasModel
+from kerasmodel import Model
 
 # Deep Q-learning Agent
 class DQNAgent:
@@ -15,7 +15,7 @@ class DQNAgent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         
-        self.model = KerasModel(self.state_size, self.action_size)
+        self.model = Model(self.state_size, self.action_size)
 
     def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))

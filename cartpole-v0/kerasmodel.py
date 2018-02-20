@@ -3,7 +3,7 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 from keras import backend as K
 
-class KerasModel:
+class Model:
     def __init__(self, state_size, action_size):
         self.learning_rate = 0.001
         self.model = self._build_model(state_size, action_size)        
