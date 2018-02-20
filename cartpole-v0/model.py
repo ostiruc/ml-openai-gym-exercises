@@ -1,6 +1,23 @@
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import Adam
+from keras import backend as K
+
 class KerasModel:
-    def __init__(self, model):
-        self.model = model
+    def __init__(self, state_size, action_size):
+        self.learning_rate = 0.001
+        self.model = self._build_model(state_size, action_size)        
+
+    def _build_model(self, state_size, action_size):
+        # TODO: Rebuild as a Tensorflow model, will probably want to encapsulate a it's own class
+        # Neural Net for Deep-Q learning Model
+        model = Sequential()
+        model.add(Dense(24, input_dim=state_size, activation='relu'))
+        model.add(Dense(24, activation='relu'))
+        model.add(Dense(action_size, activation='linear'))
+        model.compile(loss='mse',
+                      optimizer=Adam(lr=self.learning_rate))
+        return model
     
     def predict(self, state):
         return self.model.predict(state)

@@ -1,10 +1,6 @@
 import random
 import numpy as np
 from collections import deque
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.optimizers import Adam
-from keras import backend as K
 
 from model import KerasModel
 
@@ -18,20 +14,8 @@ class DQNAgent:
         self.epsilon = 1.0  # exploration rate
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
-        self.learning_rate = 0.001
-        #self.model = self._build_model()
-        self.model = KerasModel(self._build_model())
-
-    def _build_model(self):
-        # TODO: Rebuild as a Tensorflow model, will probably want to encapsulate a it's own class
-        # Neural Net for Deep-Q learning Model
-        model = Sequential()
-        model.add(Dense(24, input_dim=self.state_size, activation='relu'))
-        model.add(Dense(24, activation='relu'))
-        model.add(Dense(self.action_size, activation='linear'))
-        model.compile(loss='mse',
-                      optimizer=Adam(lr=self.learning_rate))
-        return model
+        
+        self.model = KerasModel(self.state_size, self.action_size)
 
     def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
