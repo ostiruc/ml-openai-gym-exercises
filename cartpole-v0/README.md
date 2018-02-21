@@ -17,3 +17,11 @@ I'm attempting to get this working using base Tensorflow and Deep Q-Learning.
 I'm going to be following the methods laid out here:
 
 https://keon.io/deep-q-learning/
+
+### Update ###
+
+Trying to get this working using just base tensorflow resulted in slower 
+performance, but I did manage to fix some issues with the code in the
+deep-q-learning article that are different from the DQN paper. This causes
+the agent to converge to an optimal solution in less games but the amount
+of time it takes to compute during each step increaes.
