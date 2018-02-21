@@ -2,6 +2,7 @@ import random
 import numpy as np
 from collections import deque
 
+#from tensorflowmodel import Model
 from kerasmodel import Model
 
 # Deep Q-learning Agent
@@ -24,6 +25,7 @@ class DQNAgent:
         if np.random.rand() <= self.epsilon and not force_exploitation:
             return random.randrange(self.action_size)
 
+        # TODO: Output the predict state here to see what the prediction looks like (what's in the first row?)
         act_values = self.model.predict(state)
 
         return np.argmax(act_values[0])  # returns action
