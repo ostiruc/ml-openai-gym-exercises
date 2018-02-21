@@ -20,10 +20,9 @@ class Model:
 
         # Operations
 
-        predict_op = tf.nn.softmax(y)
+        predict_op = y
 
-        loss = tf.reduce_mean(
-	        tf.nn.softmax_cross_entropy_with_logits(labels=y_hat, logits=y))
+        loss = tf.reduce_sum(tf.square(y_hat - y))
         train_op = tf.train.AdamOptimizer(self._learning_rate).minimize(loss)
 
         return x, y_hat, predict_op, train_op
