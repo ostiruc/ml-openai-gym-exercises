@@ -25,7 +25,6 @@ class DQNAgent:
         if np.random.rand() <= self.epsilon and not force_exploitation:
             return random.randrange(self.action_size)
 
-        # TODO: Output the predict state here to see what the prediction looks like (what's in the first row?)
         act_values = self.model.predict(state)
 
         return np.argmax(act_values[0])  # returns action
@@ -40,7 +39,7 @@ class DQNAgent:
         target_fs = None
         for state, action, reward, next_state, done in minibatch:
             # TODO: 95% of the replay time is spent doing the two predicts here, see if we can move this into
-            # a tensorflow batch predict, it should cut down greatly on the time not having to jump back and
+            # a tensorflow/karas batch predict, it should cut down greatly on the time not having to jump back and
             # forth on the prediction time
             target = reward
 
