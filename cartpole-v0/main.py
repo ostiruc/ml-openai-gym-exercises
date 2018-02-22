@@ -7,7 +7,7 @@ from stopwatch import Stopwatch
 
 EPISODES = 1000
 GOAL_SCORE = 200
-GOAL_EPISODES = 5
+GOAL_EPISODES = 10
 
 if __name__ == "__main__":
     # initialize gym environment and the agent
