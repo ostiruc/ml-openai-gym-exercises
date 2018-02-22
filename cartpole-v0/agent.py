@@ -33,33 +33,20 @@ class DQNAgent:
         if len(self.memory) < batch_size:
             return
 
-        minibatch = random.sample(self.memory, batch_size)
+        minibatch = np.array(random.sample(self.memory, batch_size))
+        
+        states = np.array([x[0].tolist() for x in minibatch[:,0]])
+        actions = minibatch[:,1]
+        rewards = minibatch[:,2]
+        next_states = np.array([x[0].tolist() for x in minibatch[:,3]])
+        gamma_values = [0.0 if done else self.gamma for done in minibatch[:,4]]
 
-        states = None
-        target_fs = None
-        for state, action, reward, next_state, done in minibatch:
-            # TODO: 95% of the replay time is spent doing the two predicts here, see if we can move this into
-            # a tensorflow/karas batch predict, it should cut down greatly on the time not having to jump back and
-            # forth on the prediction time
-            target = reward
+        targets = rewards + gamma_values * np.amax(self.model.predict(next_states), axis=1)
+        target_fs = self.model.predict(states)
 
-            if not done:
-              target = reward + self.gamma * np.amax(self.model.predict(next_state)[0])
-
-            target_f = self.model.predict(state)
-            target_f[0][action] = target
-
-            # Concatenante our sample set
-            if states is not None:
-                states = np.concatenate((states, state), axis=0)
-            else:
-                states = state
-
-            if target_fs is not None:
-                target_fs = np.concatenate((target_fs, target_f), axis=0)
-            else:
-                target_fs = target_f
-
+        for target_f, target, action in zip(target_fs, targets, actions):            
+            target_f[action] = target
+        
         self.model.fit(states, target_fs, epochs=1, verbose=0)
 
         if self.epsilon > self.epsilon_min:
