@@ -8,12 +8,18 @@ from stopwatch import Stopwatch
 EPISODES = 1000
 GOAL_SCORE = 200
 GOAL_EPISODES = 10
+STATE_SHAPE = [1, 3]
+
+def action_index_to_torque(action_index):
+    return [action_index * 0.2 - 2.0]
 
 if __name__ == "__main__":
     # initialize gym environment and the agent
     env = gym.make('Pendulum-v0')
-    state_size = env.observation_space.shape[0]
-    action_size = env.action_space.n
+    state_size = env.observation_space.shape[0]    
+    # The action size is going to be 21 which will correspond to: -2.0, -1.8, -1.6, ... 0.0, 0.2, 0.4, ... 2.0
+    # We can map from an action's index to the the torque value by going: index * 0.2 - 2.0
+    action_size = 21 
     agent = DQNAgent(state_size, action_size)
     stopwatch = Stopwatch()
 
@@ -26,7 +32,7 @@ if __name__ == "__main__":
 
         # reset state in the beginning of each game
         state = env.reset()
-        state = np.reshape(state, [1, 4])
+        state = np.reshape(state, STATE_SHAPE)
 
         # time_t represents each frame of the game
         # Our goal is to keep the pole upright as long as possible until score of 500
@@ -36,15 +42,16 @@ if __name__ == "__main__":
             # env.render()
 
             # Decide action
-            action = agent.act(state)
+            action_index = agent.act(state)
+            torque = action_index_to_torque(action_index)
 
             # Advance the game to the next frame based on the action.
-            # Reward is 1 for every frame the pole survived
-            next_state, reward, done, _ = env.step(action)
-            next_state = np.reshape(next_state, [1, 4])
+            # Reward is TODO???
+            next_state, reward, done, _ = env.step(torque)
+            next_state = np.reshape(next_state, STATE_SHAPE)
 
             # Remember the previous state, action, reward, and done
-            agent.remember(state, action, reward, next_state, done)
+            agent.remember(state, action_index, reward, next_state, done)
 
             # make next_state the new current state for the next frame.
             state = next_state
@@ -54,6 +61,7 @@ if __name__ == "__main__":
             # done becomes True when the game ends
             # ex) The agent drops the pole
             if done:
+                # TODO: Get the score working properly
                 score = time_t + 1
 
                 # print the score
@@ -86,7 +94,7 @@ if __name__ == "__main__":
 
         # reset state in the beginning of each game
         state = env.reset()
-        state = np.reshape(state, [1, 4])
+        state = np.reshape(state, STATE_SHAPE)
 
         # time_t represents each frame of the game
         # Our goal is to keep the pole upright as long as possible until score of 500
@@ -96,12 +104,13 @@ if __name__ == "__main__":
             env.render()
 
             # Decide action
-            action = agent.act(state, force_exploitation=True)
+            action_index = agent.act(state, force_exploitation=True)
+            torque = action_index_to_torque(action_index)
 
             # Advance the game to the next frame based on the action.
-            # Reward is 1 for every frame the pole survived
-            next_state, reward, done, _ = env.step(action)
-            next_state = np.reshape(next_state, [1, 4])
+            # Reward is TODO???
+            next_state, reward, done, _ = env.step(torque)
+            next_state = np.reshape(next_state, STATE_SHAPE)
 
             # No need to remember here as we are just showing off our agent.
 
@@ -111,6 +120,7 @@ if __name__ == "__main__":
             # done becomes True when the game ends
             # ex) The agent drops the pole
             if done:
+                # TODO: Figure out the score for this problem
                 score = time_t + 1
 
                 # print the score and break out of the loop
