@@ -6,7 +6,7 @@ from agent import DQNAgent
 from stopwatch import Stopwatch
 
 EPISODES = 1000
-GOAL_SCORE = 200
+GOAL_SCORE = -175
 GOAL_EPISODES = 10
 
 if __name__ == "__main__":
@@ -54,7 +54,7 @@ if __name__ == "__main__":
             # done becomes True when the game ends
             # ex) The agent drops the pole
             if done:
-                score = time_t + 1
+                score = - (time_t + 1)
 
                 # print the score
                 print("episode: {}/{}, score: {}"
@@ -111,7 +111,7 @@ if __name__ == "__main__":
             # done becomes True when the game ends
             # ex) The agent drops the pole
             if done:
-                score = time_t + 1
+                score = -(time_t + 1)
 
                 # print the score and break out of the loop
                 print("episode: {}/{}, score: {}"
