@@ -1,13 +1,13 @@
 import gym
 import numpy as np
 from playsound import playsound
+from collections import deque
 
 from agent import DQNAgent
 from stopwatch import Stopwatch
 
 EPISODES = 1000
-GOAL_SCORE = -500
-GOAL_EPISODES = 10
+GOAL_SCORE = -200
 GAME_LENGTH = 200
 STATE_SHAPE = [1, 3]
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     agent = DQNAgent(state_size, action_size)
     stopwatch = Stopwatch()
 
-    achieved_goal_score_count = 0
+    recent_scores = deque(maxlen=10)
 
     stopwatch.start()
 
@@ -79,15 +79,11 @@ if __name__ == "__main__":
         print("episode: {}/{}, score: {}"
             .format(episode_number, EPISODES, score))
 
-        # Determine if we've achieved our goal score
-        if score >= GOAL_SCORE:
-            achieved_goal_score_count += 1
-        else:
-            achieved_goal_score_count = 0
-                
-        # If we've met our goal score enough times in a row then end training
-        if achieved_goal_score_count >= GOAL_EPISODES:
-            print("Achieved Goal Episodes, Ending Training...")
+        recent_scores.append(score)
+
+        # If we've met our average goal score
+        if len(recent_scores) == recent_scores.maxlen and np.average(recent_scores) >= GOAL_SCORE:
+            print("Achieved Average Goal Score, Ending Training...")
             break
 
     stopwatch.stop()
