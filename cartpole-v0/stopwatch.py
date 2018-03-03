@@ -78,4 +78,4 @@ class Stopwatch(object):
         """
         self.stop()
         if type:
-            raise type, value, traceback
+            raise (type, value, traceback)
