@@ -1,6 +1,6 @@
 import gym
 import numpy as np
-from playsound import playsound
+from os import system
 from collections import deque
 
 from agent import DQNAgent
@@ -88,9 +88,9 @@ if __name__ == "__main__":
 
     stopwatch.stop()
 
-    playsound('./assets/work-complete.wav')
-    print('Training completed in {} seconds.').format(stopwatch.total_run_time)
-    raw_input('Press Enter to render some games...')
+    system('say training complete')
+    print('Training completed in {} seconds.'.format(stopwatch.total_run_time))
+    input('Press Enter to render some games...')
 
     # Play 10 more episodes and render them to show how awesome our agent is
     for e in range(10):
